@@ -8,10 +8,13 @@ const Div = styled.div`
 `
 
 const Logo = styled.img`
-width: 300px;
-height: 50px;
-display: flex;
-margin: 0 auto;
+height: 200px;
+width: 400px;
+position: relative;
+margin: auto;
+top: 50%;
+transform: translateY(-50%);
+
 
 `
 

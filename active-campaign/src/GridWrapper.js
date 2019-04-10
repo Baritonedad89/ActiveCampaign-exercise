@@ -1,12 +1,16 @@
-import React, { Component } from "react";
-import Collections from "./Collections";
-import ContactList from "./Home";
+import React from "react";
+import styled from 'styled-components'
+
+const GridItems = styled.div`
+margin-top: 20px;
+box-shadow: 0 0 35px rgba(0, 0, 0, 0.3);
+`
 
 const GridWrapper = props => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col l6 offset-l4">{props.children}</div>
+        <GridItems className="col l6 offset-l3">{props.children}</GridItems>
       </div>
     </div>
   );

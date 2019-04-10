@@ -1,5 +1,4 @@
-import React, { Component, Fragment } from 'react';
-import ContactDetail from './ContactDetail';
+import React, { Component } from 'react';
 import NavBar from './NavBar';
 import JumboTron from './JumboTron';
 import GridWrapper from './GridWrapper'
@@ -12,6 +11,12 @@ const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
 const API_KEY = process.env.REACT_APP_ACTIVE_CAMPAIGN_API_KEY;
 const BASE_URL = 'https://lamppoststudios.activehosted.com/api/3/contacts';
 
+const options = {
+  headers: {
+    'Api-Token': `${API_KEY}`
+  }
+}
+
 export default class Home extends Component {
   state = {
     contacts: []
@@ -23,14 +28,11 @@ export default class Home extends Component {
 
   async getContactsFromAPI() {
     try {
-      const resolve = await fetch(`${PROXY_URL}${BASE_URL}`, {
-        headers: {
-          // I tried to secure this api key but my template literals just wouldn't work for some reason
-          'Api-Token': '1471c7fb120a56a502b871f5c0cf858024b24efd21de6b9a881bbca604ecea678b8cb3bb'
-        }
-      });
+      const resolve = await fetch(`${PROXY_URL}${BASE_URL}`, options);
+
       const contacts = await resolve.json();
       console.log(contacts);
+
       this.setState({ contacts: contacts.contacts });
     } catch (err) {
       console.log('err', err);
@@ -42,14 +44,17 @@ export default class Home extends Component {
     return(
       <React.Fragment>
          <NavBar/>
-      <JumboTron logo={'https://d3rxaij56vjege.cloudfront.net/media/logo.gif'}/>
+      <JumboTron logo={'https://d226aj4ao1t61q.cloudfront.net/kmybs7sk5_share-default.png'}/>
       <GridWrapper>
+      <h1>Contacts</h1>
         <ul className='collection'>
           {contacts.map(contact => 
 
-          <li className="collection-item">
-            <span class="title">Name: {!contact.firstName && !contact.lastName ? 'Unknown' : `${contact.firstName} ${contact.lastName}`}</span>
+          <li key={contact.id} className="collection-item">
+            <span className="title">Name: {!contact.firstName && !contact.lastName ? 'unknown' : `${contact.firstName} ${contact.lastName}`}</span>
             <p>Email: {contact.email}</p>
+            <p>Phone: {!contact.phone  ? 'n/a' : contact.phone}</p>
+
           </li>
           )}
         </ul>
